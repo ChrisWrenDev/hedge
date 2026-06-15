@@ -20,6 +20,10 @@ from app.modules.rules.router import router as rules_router
 from app.modules.rules.models import RuleDefinition, RuleTrigger, RuleAuditLog  # noqa: F401
 from app.modules.rules.rules.delta_hedge import DeltaHedgeRule  # noqa: F401 — register in registry
 from app.modules.rules.rules.convexity_bargain import ConvexityBargainRule  # noqa: F401
+from app.modules.scenarios.models import ScenarioTemplate, ScenarioRun  # noqa: F401
+from app.modules.scenarios.router import router as scenarios_router
+from app.modules.alerts.models import AlertChannel, AlertSubscription, AlertHistory  # noqa: F401
+from app.modules.alerts.router import router as alerts_router
 
 
 @asynccontextmanager
@@ -47,6 +51,8 @@ app.include_router(pricing_router, prefix="/api")
 app.include_router(convexity_router, prefix="/api")
 app.include_router(portfolio_router)
 app.include_router(rules_router)
+app.include_router(scenarios_router)
+app.include_router(alerts_router)
 
 
 @app.get("/api/health")
