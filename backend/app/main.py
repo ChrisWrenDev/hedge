@@ -9,11 +9,17 @@ from app.database import engine
 from app.modules.options_data.models import Base
 from app.modules.pricing.models import GreeksSnapshot  # noqa: F401 — ensure table registered
 from app.modules.convexity.models import ConvexityScore  # noqa: F401 — ensure table registered
+from app.modules.portfolio.models import Portfolio, Position, PortfolioGreeks  # noqa: F401
 from app.modules.data_sources.router import router as data_sources_router
 from app.modules.options_data.router import router as options_router
 from app.modules.ingestion.router import router as ingestion_router
 from app.modules.pricing.router import router as pricing_router
 from app.modules.convexity.router import router as convexity_router
+from app.modules.portfolio.router import router as portfolio_router
+from app.modules.rules.router import router as rules_router
+from app.modules.rules.models import RuleDefinition, RuleTrigger, RuleAuditLog  # noqa: F401
+from app.modules.rules.rules.delta_hedge import DeltaHedgeRule  # noqa: F401 — register in registry
+from app.modules.rules.rules.convexity_bargain import ConvexityBargainRule  # noqa: F401
 
 
 @asynccontextmanager
@@ -39,6 +45,8 @@ app.include_router(options_router, prefix="/api")
 app.include_router(ingestion_router, prefix="/api")
 app.include_router(pricing_router, prefix="/api")
 app.include_router(convexity_router, prefix="/api")
+app.include_router(portfolio_router)
+app.include_router(rules_router)
 
 
 @app.get("/api/health")
